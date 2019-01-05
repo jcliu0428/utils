@@ -7,7 +7,7 @@ class Timer(object):
   def tic(self):
       self.start_time = time.time()
 
-  def toc(self):
+  def toc(self,average):
       self.diff = time.time() - self.start_time
       self.total_time += self.diff
       self.calls += 1
