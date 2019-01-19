@@ -1,4 +1,4 @@
-from .is_str import is_str
+from .misc import is_str
 
 def to_tensor(data):
     """Convert objects of various python types to torch.Tensor"""
