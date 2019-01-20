@@ -6,6 +6,23 @@ from .colorspace import bgr2rgb,rgb2bgr
 __all__ = ['_scale_size','imresize','imsize_like','imrescale','imnormalize','imdenormalize',
           'imflip','imrotate','bbox_flip','bbox_scaling','imcrop','impad','impad_to_multiple']
 
+def impad(img,shape,pad_val=0):
+    """shape(tuple):Expected padding shape.
+       pad_val:Values to be filled in padding areas.
+       Return:ndarray:The padded image.
+    """
+    if not isinstance(pad_val,(int,float)):
+        assert len(pad_val) == img.shape[-1]
+    if len(shape) < len(img.shape):
+        shape = shape + (img.shape[-1],)
+    assert len(shape) == len(img.shape)
+    for i in range(len(shape) - 1):
+        assert shape[i] >= img.shape[i]
+    pad = np.empty(shape,dtype=img.dtype)
+    pad[...] = pad_val
+    pad[:img.shape[0],:img.shape[1],...] = img
+    return pad
+
 def imnormalize(img,mean,std,to_rgb=True):
     img = img.astype(np.float32)
     if to_rgb:
