@@ -1,8 +1,21 @@
 from __future__ import division
 
 import cv2
+from .colorspace import bgr2rgb,rgb2bgr
 
-__all__ = ['_scale_size','imresize','imsize_like','imrescale']
+__all__ = ['_scale_size','imresize','imsize_like','imrescale','imnormalize','imdenormalize']
+
+def imnormalize(img,mean,std,to_rgb=True):
+    img = img.astype(np.float32)
+    if to_rgb:
+        img = bgr2rgb(img)
+    return (img-mean) / std
+
+def imdenormalize(img,mean,std,to_bgr=True):
+    img = (img*std) + mean
+    if to_bgr:
+        img = rgb2bgr(img)
+    return img
 
 def _scale_size(size,scale):
     """Args:size(tuple):w,h
